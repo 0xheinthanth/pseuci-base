@@ -127,7 +127,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     if (stmt.superclass != null) {
       environment = new Environment(environment);
-      environment.define("super", superclass);
+      environment.define("parent", superclass);
     }
 //< Inheritance begin-superclass-environment
 //> interpret-methods
@@ -302,14 +302,21 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
           return (double)left + (double)right;
         } // [plus]
 
-        if (left instanceof String && right instanceof String) {
-          return (String)left + (String)right;
+        if (left instanceof Double && right instanceof String) {
+          String[] split = String.valueOf(left).split("\\.", 2);
+          if(split[1].equals("0")) {
+            return String.valueOf(split[0]) + right;
+          }
         }
-//> string-wrong-type
 
-        throw new RuntimeError(expr.operator,
-            "Operands must be two numbers or two strings.");
-//< string-wrong-type
+        if (left instanceof String && right instanceof Double) {
+          String[] split = String.valueOf(right).split("\\.", 2);
+          if(split[1].equals("0")) {
+            return left + String.valueOf(split[0]);
+          }
+        }
+
+        return String.valueOf(left) + String.valueOf(right);
 //< binary-plus
       case SLASH:
 //> check-slash-operand
@@ -413,12 +420,12 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
   public Object visitSuperExpr(Expr.Super expr) {
     int distance = locals.get(expr);
     PseuciClass superclass = (PseuciClass)environment.getAt(
-        distance, "super");
+        distance, "parent");
 //> super-find-this
 
-    // "this" is always one level nearer than "super"'s environment.
+    // "self" is always one level nearer than "parent"'s environment.
     PseuciInstance object = (PseuciInstance)environment.getAt(
-        distance - 1, "this");
+        distance - 1, "self");
 //< super-find-this
 //> super-find-method
 
@@ -515,7 +522,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 //< is-equal
 //> stringify
   private String stringify(Object object) {
-    if (object == null) return "nil";
+    if (object == null) return "nothing";
 
     // Hack. Work around Java adding ".0" to integer-valued doubles.
     if (object instanceof Double) {

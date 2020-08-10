@@ -32,7 +32,7 @@ class PseuciFunction implements PseuciCallable {
   // > Classes bind-instance
   PseuciFunction bind(PseuciInstance instance) {
     Environment environment = new Environment(closure);
-    environment.define("this", instance);
+    environment.define("self", instance);
     /*
      * Classes bind-instance < Classes lox-function-bind-with-initializer return new
      * PseuciFunction(declaration, environment);
@@ -81,7 +81,7 @@ class PseuciFunction implements PseuciCallable {
     } catch (Return returnValue) {
       // > Classes early-return-this
       if (isInitializer)
-        return closure.getAt(0, "this");
+        return closure.getAt(0, "self");
 
       // < Classes early-return-this
       return returnValue.value;
@@ -90,7 +90,7 @@ class PseuciFunction implements PseuciCallable {
     // > Classes return-this
 
     if (isInitializer)
-      return closure.getAt(0, "this");
+      return closure.getAt(0, "self");
     // < Classes return-this
     return null;
   }

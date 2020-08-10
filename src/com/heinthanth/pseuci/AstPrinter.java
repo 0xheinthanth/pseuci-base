@@ -114,10 +114,10 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
   @Override
   public String visitVarStmt(Stmt.Var stmt) {
     if (stmt.initializer == null) {
-      return parenthesize2("var", stmt.name);
+      return parenthesize2("let", stmt.name);
     }
 
-    return parenthesize2("var", stmt.name, "=", stmt.initializer);
+    return parenthesize2("let", stmt.name, "=", stmt.initializer);
   }
 //< Statements and State omit
 //> Control Flow omit
@@ -161,7 +161,7 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
 
   @Override
   public String visitLiteralExpr(Expr.Literal expr) {
-    if (expr.value == null) return "nil";
+    if (expr.value == null) return "nothing";
     return expr.value.toString();
   }
 //> Control Flow omit
@@ -183,14 +183,14 @@ class AstPrinter implements Expr.Visitor<String>, Stmt.Visitor<String> {
 
   @Override
   public String visitSuperExpr(Expr.Super expr) {
-    return parenthesize2("super", expr.method);
+    return parenthesize2("parent", expr.method);
   }
 //< Inheritance omit
 //> Classes omit
 
   @Override
   public String visitThisExpr(Expr.This expr) {
-    return "this";
+    return "self";
   }
 //< Classes omit
 

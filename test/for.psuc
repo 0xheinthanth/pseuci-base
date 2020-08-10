@@ -2,6 +2,6 @@ for (let i = 0; i < 5; i = i + 1) do
     if ( i == 3 ) do
         output "Woo! it's work!";
     done else do
-        output "Just waiting ...";
+        output "Just waiting ... #" + i;
     done
 done

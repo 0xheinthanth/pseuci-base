@@ -96,14 +96,14 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
     if (stmt.superclass != null) {
       beginScope();
-      scopes.peek().put("super", true);
+      scopes.peek().put("parent", true);
     }
 //< Inheritance begin-super-scope
 //> resolve-methods
 
 //> resolver-begin-this-scope
     beginScope();
-    scopes.peek().put("this", true);
+    scopes.peek().put("self", true);
 
 //< resolver-begin-this-scope
     for (Stmt.Function method : stmt.methods) {

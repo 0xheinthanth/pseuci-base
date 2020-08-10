@@ -65,7 +65,7 @@ class Parser {
         return classDeclaration();
       // < Classes match-class
       // > Functions match-fun
-      if (match(FUN))
+      if (match(FUNC))
         return function("function");
       // < Functions match-fun
       if (match(LET))
@@ -287,7 +287,7 @@ class Parser {
     // < parse-parameters
     // > parse-body
 
-    consume(DO, "Expect '{' before " + kind + " body.");
+    consume(DO, "Expect 'do' before " + kind + " body.");
     List<Stmt> body = block();
     return new Stmt.Function(name, parameters, body);
     // < parse-body
@@ -302,7 +302,7 @@ class Parser {
       statements.add(declaration());
     }
 
-    consume(DONE, "Expect '}' after block.");
+    consume(DONE, "Expect 'done' after block.");
     return statements;
   }
 
@@ -484,7 +484,7 @@ class Parser {
       return new Expr.Literal(false);
     if (match(TRUE))
       return new Expr.Literal(true);
-    if (match(NULL))
+    if (match(NOTHING))
       return new Expr.Literal(null);
 
     if (match(NUMBER, STRING)) {
@@ -592,7 +592,7 @@ class Parser {
 
       switch (peek().type) {
         case CLASS:
-        case FUN:
+        case FUNC:
         case LET:
         case FOR:
         case IF:
