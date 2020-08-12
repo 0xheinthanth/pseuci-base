@@ -296,6 +296,9 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         checkNumberOperands(expr.operator, left, right);
 //< check-minus-operand
         return (double)left - (double)right;
+      case AMP:
+        checkNumberOperands(expr.operator, left, right);
+        return (double)left % (double)right;
 //> binary-plus
       case PLUS:
         if (left instanceof Double && right instanceof Double) {

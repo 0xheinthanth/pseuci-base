@@ -4,7 +4,7 @@ package com.heinthanth.pseuci;
 enum TokenType {
   // Single-character tokens.
   LEFT_PAREN, RIGHT_PAREN,
-  COMMA, DOT, MINUS, PLUS, SEMICOLON, SLASH, STAR,
+  COMMA, DOT, MINUS, PLUS, SEMICOLON, SLASH, STAR, AMP,
 
   // One or two character tokens.
   BANG, BANG_EQUAL,

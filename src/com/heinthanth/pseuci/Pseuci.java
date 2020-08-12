@@ -64,6 +64,7 @@ public class Pseuci {
   private static void run(String source) {
     Scanner scanner = new Scanner(source);
     List<Token> tokens = scanner.scanTokens();
+
 /* Scanning run < Parsing Expressions print-ast
 
     // For now, just print the tokens.
